@@ -1,0 +1,4 @@
+{
+    "python.pythonPath": "/Users/apple/.virtualenvs/env_py3_001/bin/python3",
+    "python.linting.pylintArgs": ["--generate-members"]
+}

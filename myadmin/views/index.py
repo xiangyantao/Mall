@@ -25,11 +25,13 @@ def dologin(request):
     # 校验验证码
     verifycode = request.session['verifycode']
     code = request.POST['code']
+    print(verifycode)
+    print(code)
     if verifycode != code:
         context = {'info':'验证码错误！'}
         return render(request, 'myadmin/login.html',context)
 
-        
+
     try:
         # 根据账号获取登陆者信息
         user = Users.objects.get(username=request.POST['username'])
@@ -39,6 +41,8 @@ def dologin(request):
             import hashlib
             m = hashlib.md5()
             m.update(bytes(request.POST['password'],encoding="utf-8"))
+            print(user.password)
+            print(m.hexdigest())
             if user.password == m.hexdigest():
                 # 此处登陆成功，将当前登陆信息放入到session中，并跳转页面
                 request.session['adminuser'] = user.name
@@ -47,7 +51,7 @@ def dologin(request):
             else:
                 context = {'info':'登陆密码错误！'}
         else:
-            context = {'info':'此用户非后太管理用户！'}
+            context = {'info':'此用户非后台管理用户！'}
     except:
         context = {'info':'登陆帐号错误！'}
     return render(request, "myadmin/login.html",context)
@@ -66,8 +70,8 @@ def verify(request):
     import random
     from PIL import Image, ImageDraw, ImageFont
     # 定义变量，用于画面的背景色、宽、高
-    # bgcolor = (random.randrang(20, 100), random.randrange(20, 100), 100)
-    bgcolor = (242,164,247)
+    bgcolor = (random.randrange(20, 100), random.randrange(20, 100), 100)
+    # bgcolor = (242,164,247)
     width = 100
     height = 25
     # 创建画面对象

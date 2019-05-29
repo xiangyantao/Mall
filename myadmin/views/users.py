@@ -11,7 +11,8 @@ def index(request):
     context = {"userslist":list}
     #return HttpResponse(list)
     return render(request,'myadmin/users/index.html',context)
-    # 会员信息添加表单
+
+# 会员信息添加表单
 def add(request):
     return render(request,'myadmin/users/add.html')
 
@@ -41,7 +42,7 @@ def insert(request):
 
     return render(request,"myadmin/info.html",context)
 
-    # 执行会员信息删除
+# 执行会员信息删除
 def delete(request,uid):
     try:
         ob = Users.objects.get(id=uid)
