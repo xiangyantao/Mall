@@ -14,42 +14,42 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-from django.conf.urls import url, include
+from django.urls import path, re_path, include
 from myadmin.views import index, users, type, goods
 
 urlpatterns = [
     # 后台首页
-    url(r'^$', index.index, name="myadmin_index"),
-
+    path('', index.index, name="myadmin_index"),
 
     # 后台用户管理
-    url(r'^users$', users.index, name="myadmin_users_index"),
-    url(r'^users/add$', users.add, name="myadmin_users_add"),
-    url(r'^users/insert$', users.insert, name="myadmin_users_insert"),
-    url(r'^users/del/(?P<uid>[0-9]+)$', users.delete, name="myadmin_users_del"),
-    url(r'^users/edit/(?P<uid>[0-9]+)$', users.edit, name="myadmin_users_edit"),
-    url(r'^users/update/(?P<uid>[0-9]+)$', users.update, name="myadmin_users_update"),
+    path('users/<int:pIndex>', users.index, name="myadmin_users_index"),
+    path('users/add', users.add, name="myadmin_users_add"),
+    path('users/insert', users.insert, name="myadmin_users_insert"),
+    path('users/del/<int:uid>', users.delete, name="myadmin_users_del"),
+    path('users/edit/<int:uid>', users.edit, name="myadmin_users_edit"),
+    path('users/update/<int:uid>', users.update, name="myadmin_users_update"),
+    path('users/pwupdate/<int:uid>', users.pwupdate, name="myadmin_users_pwupdate"),
+    path('users/resetpw/<int:uid>', users.resetpw, name="myadmin_users_resetpw"),
 
     # 后台管理员路由
-    url(r'^login$', index.login, name='myadmin_login'),
-    url(r'^dologin$', index.dologin, name='myadmin_dologin'),
-    url(r'^logout$', index.logout, name='myadmin_logout'),
-    url(r'^verify$', index.verify, name='myadmin_verify'), # 验证码
+    path('login', index.login, name='myadmin_login'),
+    path('dologin', index.dologin, name='myadmin_dologin'),
+    path('logout', index.logout, name='myadmin_logout'),
+    path('verify', index.verify, name='myadmin_verify'), # 验证码
 
     # 后台商品类别信息管理
-    url(r'^type$', type.index, name='myadmin_type_index'),
-    url(r'^type/add/(?P<tid>[0-9]+)$', type.add, name='myadmin_type_add'),
-    url(r'^type/insert$', type.insert, name="myadmin_type_insert"),
-    url(r'^type/del/(?P<tid>[0-9]+)$', type.delete, name="myadmin_type_del"),
-    url(r'^type/edit/(?P<tid>[0-9]+)$', type.edit, name="myadmin_type_edit"),
-    url(r'^type/update/(?P<tid>[0-9]+)$', type.update, name="myadmin_type_update"),
+    path('type', type.index, name='myadmin_type_index'),
+    path('type/add/<int:tid>', type.add, name='myadmin_type_add'),
+    path('type/insert', type.insert, name="myadmin_type_insert"),
+    path('type/del/<int:tid>', type.delete, name="myadmin_type_del"),
+    path('type/edit/<int:tid>', type.edit, name="myadmin_type_edit"),
+    path('type/update/<int:tid>', type.update, name="myadmin_type_update"),
 
-     # 后台商品信息管理
-    url(r'^goods/(?P<pIndex>[0-9]+)$', goods.index, name="myadmin_goods_index"),
-    url(r'^goods/add$', goods.add, name="myadmin_goods_add"),
-    url(r'^goods/insert$', goods.insert, name="myadmin_goods_insert"),
-    url(r'^goods/del/(?P<gid>[0-9]+)$', goods.delete, name="myadmin_goods_del"),
-    url(r'^goods/edit/(?P<gid>[0-9]+)$', goods.edit, name="myadmin_goods_edit"),
-    url(r'^goods/update/(?P<gid>[0-9]+)$', goods.update, name="myadmin_goods_update"),
+    # 后台商品信息管理
+    path('goods/<int:pIndex>', goods.index, name="myadmin_goods_index"),
+    path('goods/add', goods.add, name="myadmin_goods_add"),
+    path('goods/insert', goods.insert, name="myadmin_goods_insert"),
+    path('goods/del/<int:gid>', goods.delete, name="myadmin_goods_del"),
+    path('goods/edit/<int:gid>', goods.edit, name="myadmin_goods_edit"),
+    path('goods/update/<int:gid>', goods.update, name="myadmin_goods_update"),
 ]

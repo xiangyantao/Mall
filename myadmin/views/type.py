@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -37,12 +37,12 @@ def insert(request):
         ob.pid = request.POST['pid']
         ob.path = request.POST['path']
         ob.save()
-        context = {'info':'添加成功！'}
+        context = {'info': '添加成功！'}
     except Exception as err:
         print(err)
-        context = {'info':'添加失败！'}
+        context = {'info': '添加失败！'}
+    return render(request, 'myadmin/info.html', context)
 
-    return render(request,'myadmin/info.html',context)
 
 # 执行商品类别信息删除
 def delete(request,tid):
@@ -50,38 +50,40 @@ def delete(request,tid):
         # 获取被删除商品的子类别信息量，若有数据，就禁止删除当前类别
         row = Types.objects.filter(pid=tid).count()
         if row > 0:
-            context = {'info':'删除失败：此类别下还有子类别！'}
-            return render(request,"myadmin/info.html",context)
+            context = {'info': '删除失败：此类别下还有子类别！'}
+            return render(request, "myadmin/info.html", context)
         ob = Types.objects.get(id=tid)
         ob.delete()
-        context = {'info':'删除成功！'}
+        context = {'info': '删除成功！'}
     except Exception as err:
         print(err)
-        context = {'info':'删除失败！'}
-    return render(request,"myadmin/info.html",context)
+        context = {'info': '删除失败！'}
+    return render(request, "myadmin/info.html", context)
 
-    # 打开商品类别信息编辑表单
-def edit(request,tid):
+
+# 打开商品类别信息编辑表单
+def edit(request, tid):
     try:
         ob = Types.objects.get(id=tid)
-        context = {'type':ob}
-        return render (request,'myadmin/type/edit.html',context)
+        context = {'type': ob}
+        return render(request, 'myadmin/type/edit.html', context)
     except Exception as err:
         print(err)
-        context = {'info':'没有找到要修改的信息！'}
-    return render(request, 'myadmin/info.html',context)
+        context = {'info': '没有找到要修改的信息！'}
+    return render(request, 'myadmin/info.html', context)
+
 
 # 执行商品类别信息编辑
-def update(request,tid):
+def update(request, tid):
     try:
         ob = Types.objects.get(id=tid)
         ob.name = request.POST['name']
         ob.save()
-        context = {'info':'修改成功！'}
+        context = {'info': '修改成功！'}
     except Exception as err:
         print(err)
-        context = {'info':'修改失败！'}
-    return render(request,'')
+        context = {'info': '修改失败！'}
+    return render(request, '')
 
 
 

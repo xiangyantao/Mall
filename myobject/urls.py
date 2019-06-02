@@ -16,10 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url, include
+from web.views import index
 
 urlpatterns = [
-    # path('admin/', admin.site.urls),
+    # 后台管理页面
     path('myadmin/', include('myadmin.urls')),
-    path('', include('web.urls')),
-
+    # 前台首页
+    path('', include('web.urls')),  # 商城首页
 ]

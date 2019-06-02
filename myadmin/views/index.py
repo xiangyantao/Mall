@@ -10,7 +10,7 @@ import time, json
 # 后台首页
 def index(request):
     # 管理后台首页
-    return render(request,"myadmin/index.html")
+    return render(request, "myadmin/index.html")
 
 # ===========后台管理员操作=============
 
@@ -25,8 +25,8 @@ def dologin(request):
     # 校验验证码
     verifycode = request.session['verifycode']
     code = request.POST['code']
-    print(verifycode)
-    print(code)
+    # print(verifycode)
+    # print(code)
     if verifycode != code:
         context = {'info':'验证码错误！'}
         return render(request, 'myadmin/login.html',context)
@@ -40,7 +40,7 @@ def dologin(request):
             # 验证密码
             import hashlib
             m = hashlib.md5()
-            m.update(bytes(request.POST['password'],encoding="utf-8"))
+            m.update(bytes(request.POST['password'], encoding="utf-8"))
             print(user.password)
             print(m.hexdigest())
             if user.password == m.hexdigest():
